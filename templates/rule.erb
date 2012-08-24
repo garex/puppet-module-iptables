@@ -1,0 +1,3 @@
+<% source.each do |address| -%>
+/sbin/iptables --<%= action %> INPUT --jump ACCEPT --in-interface eth0 --proto tcp --dport <%= port %> --source <%= address %>
+<% end -%>

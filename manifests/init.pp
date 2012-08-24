@@ -35,7 +35,7 @@ class iptables {
 
 define iptables::rule(
   $port,
-  $source = "0.0.0.0/0",
+  $source = ["0.0.0.0/0"],
   $action = "append",
   $plus   = undef,
   $minus  = undef
@@ -55,10 +55,10 @@ define iptables::rule(
   $file_name = regsubst($name, '\s+', '_', 'EG')
 
   file {"Adding iptables rule for $port and $source":
-    require => File["/etc/iptables_setup.d"],
-    path    => "/etc/iptables_setup.d/${weight}_${file_name}",
-    content => "/sbin/iptables --$action INPUT --jump ACCEPT --in-interface eth0 --proto tcp --dport $port --source $source",
-    notify  => Exec["Finishing iptables"],
+    require   => File["/etc/iptables_setup.d"],
+    path      => "/etc/iptables_setup.d/${weight}_${file_name}",
+    content   => template("iptables/rule.erb"),
+    notify    => Exec["Finishing iptables"],
   }
 
 }
