@@ -5,6 +5,7 @@ Uses iptables as a simple firewall.
 ## Description
 
 To firewall with iptables' help this module cleans up all & reinits with bash scripts. Custom parts are created in custom generated bash script. Also module adds persistency to iptables.
+
 **Note:** Currently module was tested on Debian family.
 
 ## Usage
@@ -46,8 +47,8 @@ By conception puppet does not support ordering. If you need some sort of, you
 can try to play with rule's names, but it looks awful.
 
 For this case we have plus & minus params. So by default all rules have 0 weight.
-If you want to put rule ni front -- use "plus". If you want to make always last --
-use minus:
+If you want to put rule in front -- use *plus*. If you want to make always last --
+use *minus*:
 
 ```ruby
 iptables::rule {
