@@ -27,6 +27,7 @@ class iptables {
   exec {"Finishing iptables":
     require   => File["/usr/bin/iptables_setup"],
     command   => "/usr/bin/iptables_setup",
+    cwd       => "/etc/iptables_setup.d",
     refreshonly => true,
   }
 
