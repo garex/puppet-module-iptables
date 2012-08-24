@@ -24,29 +24,23 @@ class iptables {
       mode    => 755;
   }
 
+  exec {"Finishing iptables":
+    require   => File["/usr/bin/iptables_setup"],
+    command   => "/usr/bin/iptables_setup",
+    refreshonly => true,
+  }
+
 }
 
 define iptables::rule($port, $source = "0.0.0.0/0", $action = "append") {
 
   include iptables
 
-  # Dependency on class
-  Class[ "iptables" ] -> Rule[ $name ] -> Class[ "iptables::finish" ]
-
   file {"Adding iptables rule for $port and $source":
+    require => File["/etc/iptables_setup.d"],
     path    => "/etc/iptables_setup.d/$name",
     content => "/sbin/iptables --$action INPUT --jump ACCEPT --in-interface eth0 --proto tcp --dport $port --source $source",
     notify  => Exec["Finishing iptables"],
-  }
-
-  include iptables::finish
-}
-
-class iptables::finish {
-
-  exec {"Finishing iptables":
-    refreshonly => true,
-    command     => "/usr/bin/iptables_setup",
   }
 
 }
