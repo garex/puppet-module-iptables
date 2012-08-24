@@ -28,6 +28,8 @@ class iptables {
 
 define iptables::rule($port, $source = "0.0.0.0/0", $action = "append") {
 
+  include iptables
+
   # Dependency on class
   Class[ "iptables" ] -> Rule[ $name ] -> Class[ "iptables::finish" ]
 
