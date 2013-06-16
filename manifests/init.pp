@@ -37,6 +37,7 @@ define iptables::rule(
   $port,
   $source = ["0.0.0.0/0"],
   $action = "append",
+  $jump   = "ACCEPT",
   $plus   = undef,
   $minus  = undef
 ) {
