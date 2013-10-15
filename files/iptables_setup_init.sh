@@ -21,7 +21,13 @@ iptables --append INPUT --jump ACCEPT --proto icmp --icmp-type time-exceeded
 iptables --append INPUT --jump ACCEPT --proto icmp --icmp-type echo-reply
 iptables --append INPUT --jump ACCEPT --proto icmp --icmp-type echo-request
 
+# Go to *.d intentionally
+cd /etc/iptables_setup.d
+
 for rule in $(ls -1 | sort --reverse --numeric-sort)
 do
   . ./$rule
 done
+
+# Persist rules
+iptables-save --counters > /etc/iptables.rules
