@@ -41,6 +41,7 @@ define iptables::rule(
   $source = ["0.0.0.0/0"],
   $action = "append",
   $jump   = "ACCEPT",
+  $chain  = "INPUT",
   $plus   = undef,
   $minus  = undef
 ) {

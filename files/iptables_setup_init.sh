@@ -26,6 +26,9 @@ iptables --append INPUT --jump ACCEPT --proto icmp --icmp-type time-exceeded
 iptables --append INPUT --jump ACCEPT --proto icmp --icmp-type echo-reply
 iptables --append INPUT --jump ACCEPT --proto icmp --icmp-type echo-request
 
+# Add custom droplist
+iptables --new-chain DROP_LIST
+
 # Add custom SYN-flood
 iptables --new-chain SYN_FLOOD
 iptables --append INPUT --jump SYN_FLOOD --proto tcp --in-interface eth0 --syn
@@ -42,6 +45,9 @@ for rule in $(ls -1 | sort --reverse --numeric-sort)
 do
   . ./$rule
 done
+
+# Insert custom droplist after all
+iptables --insert INPUT --jump DROP_LIST
 
 # Persist rules
 iptables-save --counters > /etc/iptables.rules
