@@ -1,6 +1,9 @@
 # @see https://help.ubuntu.com/community/IptablesHowTo
 
-class iptables {
+class iptables (
+  $syn_limit        = "1/s",
+  $syn_limit_burst  = "4"
+) {
 
   package {"iptables":
     ensure  => present,
@@ -26,7 +29,7 @@ class iptables {
 
   exec {"Finishing iptables":
     require   => File["/usr/bin/iptables_setup"],
-    command   => "/usr/bin/iptables_setup",
+    command   => "/usr/bin/iptables_setup $syn_limit $syn_limit_burst",
     cwd       => "/etc/iptables_setup.d",
     refreshonly => true,
   }
